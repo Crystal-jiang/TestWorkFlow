@@ -1,4 +1,4 @@
-name: Issue & PR Comment Labeler
+name: Auto-Add "ascend" Label on Comment
 on:
   issue_comment:
     types: [created]
