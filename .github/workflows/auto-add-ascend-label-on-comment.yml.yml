@@ -13,7 +13,7 @@ jobs:
   add_ascend_label:
     runs-on: ubuntu-latest
     steps:
-      - name: Add Ascend Label
+      - name: Add Ascend Label on Comment
         uses: actions/github-script@v7
         with:
           script: |
