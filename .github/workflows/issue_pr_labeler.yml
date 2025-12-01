@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add Ascend Label
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             try {
               const body = context.payload.comment.body.toLowerCase();
               const owner = context.repo.owner;
-              const repo = const.repo.repo;
+              const repo = context.repo.repo;
 
               // 1. Determine issue or pr
               let issueNumber;
