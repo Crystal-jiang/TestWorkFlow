@@ -44,7 +44,7 @@ jobs:
               }
 
               // 3. Fetch the current issue/pr to check existing lables
-              const reponse = await getMethod({
+              const response = await getMethod({
                 owner: owner,
                 repo: repo,
                 issue_number: issueNumber,
