@@ -22,7 +22,7 @@ jobs:
               const owner = context.repo.owner;
               const repo = context.repo.repo;
 
-              // 1. Determine issue or pr
+              // 1. Extract the event type and relevant data
               let issueNumber;
               let getMethod;
 
