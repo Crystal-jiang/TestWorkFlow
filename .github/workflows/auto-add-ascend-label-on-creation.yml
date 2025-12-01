@@ -29,7 +29,7 @@ jobs:
                 : context.payload.issue.pull_request.body?.toLowerCase() || '';
 
               const owner = context.repo.owner;
-              constrepo = context.repo.repo;
+              const repo = context.repo.repo;
               const number = isIssue
                 ? context.payload.issue.number
                 : context.payload.issue.pull_request.number;
