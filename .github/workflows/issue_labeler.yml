@@ -32,7 +32,7 @@ jobs:
             
               // 3. Avoid duplicate label addition
               const existingLabels = issueResponse.data.labels.map(label => label.name);
-              if (!existingLabels.includes('ascend')) {
+              if (existingLabels.includes('ascend')) {
                 console.log('Label "ascend" already exists. Skipping.');
                 return;
               }
