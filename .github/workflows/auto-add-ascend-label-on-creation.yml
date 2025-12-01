@@ -43,14 +43,13 @@ jobs:
               }
 
               // 3. Fetch the current issue/pr to check existing lables
-              const labelsEndpoint = isIssue
+              const labelsResponse = await (isIssue
                 ? github.rest.issues.listLabelsOnIssue
-                : github.rest.pulls.listLabelsOnPullRequest;
-              const labelsResponse = await labelsEndpoint({
-                owner: owner,
-                repo: repo,
-                issue_number: number,
-              });
+                : github.rest.pulls.listLabelsOnPullRequest)({
+                  owner: owner,
+                  repo: repo,
+                  issue_number: number,
+                });
                           
               // 4. Avoid duplicate label addition
               const existingLabels = labelsResponse.data?.map(label => label.name) || [];
