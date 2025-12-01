@@ -1,4 +1,4 @@
-name: Issue & PR Labeler
+name: Issue & PR Comment Labeler
 on:
   issue_comment:
     types: [created]
