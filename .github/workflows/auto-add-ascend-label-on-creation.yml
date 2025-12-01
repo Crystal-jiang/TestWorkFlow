@@ -2,12 +2,9 @@ name: Auto-Add "ascend" Label on Creation
 on:
   issues:
     types: [opened]
-  pull_request:
-    types: [opened]
 
 permissions:
   issues: write
-  pull-requests: write
 
 jobs:
   add_ascend_label:
@@ -18,24 +15,13 @@ jobs:
         with:
           script: |
             try {
-              // 1. Extract the event type and relevant data
-              const isIssue = context.eventName === 'issues';
-              const title = isIssue
-                ? context.payload.issue.title.toLowerCase()
-                : context.payload.pull_request.title.toLowerCase();
-              console.log('title.');
-
-              const body = isIssue
-                ? context.payload.issue.body?.toLowerCase() || ''
-                : context.payload.pull_request.body?.toLowerCase() || '';
-              console.log('body.');
+              // 1. Extract relevant data
+              const title = context.payload.issue.title.toLowerCase()
+              const body = context.payload.issue.body?.toLowerCase() || '';
 
               const owner = context.repo.owner;
               const repo = context.repo.repo;
-              const number = isIssue
-                ? context.payload.issue.number
-                : context.payload.pull_request.number;
-              console.log('number.');
+              const number = context.payload.issue.number;
 
               const content = `${title} ${body}`;
             
@@ -46,30 +32,21 @@ jobs:
               }
 
               // 3. Fetch the current issue/pr to check existing lables
-              const getEndpoint = isIssue
-                ? github.rest.issues.get
-                : github.rest.pulls.get;
-              const response = await getEndpoint({
+              const labelsResponse = await github.rest.issues.listLabelsOnIssue({
                 owner: owner,
                 repo: repo,
                 issue_number: number,
               });
-              console.log(response);
                           
               // 4. Avoid duplicate label addition
-              const existingLabels = response.data.labels?.map(label => label.name) || [];
+              const existingLabels = labelsResponse.data?.map(label => label.name) || [];
               if (existingLabels.includes('ascend')) {
                 console.log('Label "ascend" already exists. Skipping.');
                 return;
               }
-              console.log('existingLabels.');
             
               // 5. Add the "ascend" label
-              const addLabelsEndpoint = isIssue
-                ? github.rest.issues.addLabels
-                : github.rest.pulls.addLabels;
-                
-              await addLabelsEndpoint({
+              await github.rest.issues.addLabels({
                 owner: owner,
                 repo: repo,
                 issue_number: number,
