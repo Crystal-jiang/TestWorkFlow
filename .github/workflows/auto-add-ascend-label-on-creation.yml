@@ -46,7 +46,7 @@ jobs:
               const getEndpoint = isIssue
                 ? github.rest.issues.get
                 : github.rest.pulls.get;
-              const labelsResponse = await getEndpoint({
+              const response = await getEndpoint({
                 owner: owner,
                 repo: repo,
                 issue_number: number,
