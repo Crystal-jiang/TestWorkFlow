@@ -43,17 +43,17 @@ jobs:
               }
 
               // 3. Fetch the current issue/pr to check existing lables
-              const getLabelEndpoint = isIssue
-                ? github.rest.issues.listLabelsOnIssue
-                : github.rest.pulls.listLabelsOnPullRequest;
-              const labelsResponse = await getLabelEndpoint({
+              const getEndpoint = isIssue
+                ? github.rest.issues.get
+                : github.rest.pulls.get;
+              const labelsResponse = await getEndpoint({
                 owner: owner,
                 repo: repo,
                 issue_number: number,
               });
                           
               // 4. Avoid duplicate label addition
-              const existingLabels = labelsResponse.data?.map(label => label.name) || [];
+              const existingLabels = response.data.labels?.map(label => label.name) || [];
               if (existingLabels.includes('ascend')) {
                 console.log('Label "ascend" already exists. Skipping.');
                 return;
